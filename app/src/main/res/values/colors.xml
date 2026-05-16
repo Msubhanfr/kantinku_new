@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Palette - Turquoise #2DAA9E -->
+    <color name="primary">#2DAA9E</color>
+    <color name="primary_dark">#1E7A6E</color>
+    <color name="primary_light">#6BC6BC</color>
+    <color name="primary_gradient_start">#2DAA9E</color>
+    <color name="primary_gradient_end">#1E7A6E</color>
+
+    <!-- Tertiary Palette - Orange #FF8C42 -->
+    <color name="tertiary">#FF8C42</color>
+    <color name="tertiary_light">#FFB07C</color>
+    <color name="tertiary_gradient_start">#FF8C42</color>
+    <color name="tertiary_gradient_end">#E56A1A</color>
+
+    <!-- Surface Hierarchy (Tonal Layering) -->
+    <color name="surface">#F8F9FA</color>           <!-- Base layer -->
+    <color name="surface_container_low">#F1F3F5</color>    <!-- Subtle separation -->
+    <color name="surface_container_high">#E9ECEF</color>   <!-- Interactive elements -->
+    <color name="surface_container_lowest">#FFFFFF</color> <!-- Cards that pop -->
+    <color name="surface_variant">#E6F3F1</color>          <!-- Glass overlay base -->
+
+    <!-- On-surface colors -->
+    <color name="on_surface">#1A1A1A</color>
+    <color name="on_surface_secondary">#6C757D</color>
+    <color name="on_surface_disabled">#ADB5BD</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_tertiary">#FFFFFF</color>
+
+    <!-- Secondary Container for Chips -->
+    <color name="secondary_container">#E8F0FE</color>
+    <color name="on_secondary_container">#1967D2</color>
+
+    <!-- Glass Effect Colors -->
+    <color name="glass_background">#F8F9FAD9</color> <!-- 85% opacity -->
+
+    <!-- Outline (Ghost Border - 15% opacity) -->
+    <color name="outline_variant">#00000026</color>
+
+    <!-- Success & Error States -->
+    <color name="success">#4CAF50</color>
+    <color name="error">#F44336</color>
+    <color name="warning">#FFC107</color>
+
+    
+</resources>

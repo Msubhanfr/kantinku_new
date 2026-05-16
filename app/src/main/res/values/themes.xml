@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.KantinKu" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <!-- Color palette -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorSecondary">@color/tertiary</item>
+        <item name="colorSecondaryVariant">@color/tertiary_light</item>
+        <item name="colorOnSecondary">@color/on_tertiary</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+
+        <!-- Typography -->
+        <item name="android:fontFamily">@font/inter</item>
+
+        <!-- Window background -->
+        <item name="android:windowBackground">@color/surface</item>
+
+        <!-- Rounded corners for dialogs -->
+        <item name="dialogCornerRadius">24dp</item>
+    </style>
+
+    <!-- Typography Styles -->
+    <style name="DisplayLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:lineSpacingExtra">8dp</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <style name="DisplayMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <style name="DisplaySmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/on_surface_secondary</item>
+    </stage>
+
+    <!-- Gradient Button Style -->
+    <style name="GradientButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/bg_gradient_primary</item>
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:paddingHorizontal">24dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Glass Card Style -->
+    <style name="GlassCard">
+        <item name="android:background">@drawable/bg_glass</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+</resources>
