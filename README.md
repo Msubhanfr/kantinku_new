@@ -1,4 +1,4 @@
-# Design System Strategy: The Fluid Canteen
+# Design System Strategy: The Fluid KantinKu
 
 ## 1. Overview & Creative North Star
 The objective of this design system is to elevate the "campus canteen" experience from a utility to a lifestyle. Our Creative North Star is **"The Kinetic Scholar."** 
