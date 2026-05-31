@@ -44,7 +44,7 @@
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:src="@drawable/ic_notifications_empty"
+                        android:src="ic_notifications_empty.xml"
                         android:tint="@color/on_surface_disabled" />
 
                     <TextView

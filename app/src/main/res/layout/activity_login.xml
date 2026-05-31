@@ -201,7 +201,7 @@
             android:id="@+id/btnSsoLogin"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Login dengan SSO Kampus"
+            android:text="Login dengan NIM Kampus"
             android:textSize="14sp"
             android:textStyle="bold"
             android:backgroundTint="@color/surface_container_high"
@@ -225,7 +225,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_check"
+                    android:src="@drawable/ic_chek"
                     android:tint="@color/primary" />
 
                 <TextView
@@ -248,7 +248,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_check"
+                    android:src="@drawable/ic_chek"
                     android:tint="@color/primary" />
 
                 <TextView

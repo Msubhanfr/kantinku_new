@@ -1,5 +1,6 @@
 package com.example.kantinku.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kantinku.R
 import com.example.kantinku.databinding.FragmentProfileBinding
 import com.example.kantinku.ui.login.LoginActivity
+import com.example.kantinku.ui.seller.SellerDashboardActivity
 import com.example.kantinku.utils.SessionManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,6 +49,9 @@ class ProfileFragment : Fragment() {
         setupBottomNav()
         setupLogout()
         loadDummyReviews()
+
+        // 🔥 TAMBAHKAN PEMANGGILAN setupSellerAccess() DI SINI
+        setupSellerAccess()
     }
 
     private fun setupUserProfile() {
@@ -91,6 +96,22 @@ class ProfileFragment : Fragment() {
         // Rate button for warung
         binding.btnRateWarung.setOnClickListener {
             showWarungRatingDialog()
+        }
+    }
+
+    // 🔥 TAMBAHKAN FUNGSI INI UNTUK AKSES SELLER
+    private fun setupSellerAccess() {
+        // Cek apakah user adalah seller (penjual)
+        if (sessionManager.isSeller()) {
+            // Tampilkan tombol dashboard seller
+            binding.btnSellerDashboard.visibility = View.VISIBLE
+            binding.btnSellerDashboard.setOnClickListener {
+                val intent = Intent(requireContext(), SellerDashboardActivity::class.java)
+                startActivity(intent)
+            }
+        } else {
+            // Sembunyikan tombol untuk user biasa
+            binding.btnSellerDashboard.visibility = View.GONE
         }
     }
 
@@ -306,7 +327,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun navigateToCart() {
-        val intent = android.content.Intent(requireContext(), com.example.kantinku.ui.cart.CartActivity::class.java)
+        val intent = Intent(requireContext(), com.example.kantinku.ui.cart.CartActivity::class.java)
         startActivity(intent)
     }
 
@@ -317,7 +338,7 @@ class ProfileFragment : Fragment() {
                 .setMessage("Apakah Anda yakin ingin logout?")
                 .setPositiveButton("Ya") { _, _ ->
                     sessionManager.logout()
-                    startActivity(android.content.Intent(requireContext(), LoginActivity::class.java))
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
                     requireActivity().finish()
                 }
                 .setNegativeButton("Tidak", null)

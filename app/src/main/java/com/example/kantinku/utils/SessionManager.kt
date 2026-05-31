@@ -20,4 +20,15 @@ class SessionManager(context: Context) {
     fun isSeller(): Boolean = prefs.getBoolean("is_seller", false)
 
     fun logout() = prefs.edit().clear().apply()
+
+    // Tambahkan method ini
+    fun isFirstTimeLaunch(): Boolean {
+        val prefs = context.getSharedPreferences("onboarding", Context.MODE_PRIVATE)
+        return !prefs.getBoolean("is_onboarding_completed", false)
+    }
+
+    fun setOnboardingCompleted() {
+        val prefs = context.getSharedPreferences("onboarding", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("is_onboarding_completed", true).apply()
+    }
 }

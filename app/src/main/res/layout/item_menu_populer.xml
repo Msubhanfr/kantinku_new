@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="1dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="1dp"
+    android:background="@color/surface_container_lowest">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <!-- Nomor Urut -->
         <TextView
@@ -21,7 +22,8 @@
             android:text="1."
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="#FF5722" />
+            android:textColor="@color/primary"
+            android:fontFamily="@font/plus_jakarta_sans" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -36,16 +38,18 @@
                 android:layout_height="wrap_content"
                 android:text="Nasi Goreng Spesial"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="@font/plus_jakarta_sans" />
 
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Nasi goreng dengan telur, ayam,..."
+                android:text="Nasi goreng dengan telur, ayam, bakso..."
                 android:textSize="12sp"
-                android:textColor="#666666"
+                android:textColor="@color/on_surface_secondary"
+                android:fontFamily="@font/inter"
                 android:maxLines="2"
                 android:ellipsize="end" />
 
@@ -53,7 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/tvPrice"
@@ -62,8 +67,9 @@
                     android:layout_weight="1"
                     android:text="Rp 15.000"
                     android:textSize="14sp"
-                    android:textColor="#FF5722"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:fontFamily="@font/plus_jakarta_sans" />
 
                 <TextView
                     android:id="@+id/tvStockWarning"
@@ -71,7 +77,8 @@
                     android:layout_height="wrap_content"
                     android:text="STOK HABIS"
                     android:textSize="11sp"
-                    android:textColor="#F44336"
+                    android:textColor="@color/error"
+                    android:fontFamily="@font/inter"
                     android:visibility="gone" />
 
             </LinearLayout>

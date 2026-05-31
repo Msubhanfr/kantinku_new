@@ -1,16 +1,14 @@
 package com.example.kantinku.ui.cart
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kantinku.R
 import com.example.kantinku.databinding.ActivityCartBinding
+import com.example.kantinku.ui.payment.PaymentActivity
 import com.example.kantinku.utils.CurrencyFormatter
 import com.example.kantinku.utils.SessionManager
-import kotlinx.coroutines.launch
-import java.text.NumberFormat
-import java.util.Locale
 
 class CartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCartBinding
@@ -18,19 +16,10 @@ class CartActivity : AppCompatActivity() {
     private lateinit var cartAdapter: CartAdapter
     private lateinit var flashDealAdapter: FlashDealAdapter
 
-    // Data keranjang
     private val cartItems = mutableListOf<CartItem>()
 
-    // Data flash deal
     private val flashDeals = listOf(
-        FlashDeal(
-            id = 1,
-            name = "Pisang Goreng Madu",
-            description = "Sempurna untuk camilan sore sambil belajar!",
-            originalPrice = 15000,
-            dealPrice = 12000,
-            imageRes = com.example.kantinku.R.drawable.ic_food
-        )
+        FlashDeal(1, "Pisang Goreng Madu", "Sempurna untuk camilan sore sambil belajar!", 15000, 12000, R.drawable.ic_food)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,60 +32,67 @@ class CartActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        setupCartData()
+        // 🔥 TERIMA DATA DARI INTENT (dari Home/Menu)
+        val menuId = intent.getIntExtra("menu_id", -1)
+        val menuName = intent.getStringExtra("menu_name")
+        val menuPrice = intent.getIntExtra("menu_price", 0)
+
         setupRecyclerViews()
         setupFlashDealSection()
-        setupCheckoutButton()
         setupBottomNav()
+
+        // Jika ada data dari intent, tambahkan ke cart
+        if (menuId != -1 && menuName != null) {
+            addToCartDirectly(menuId, menuName, menuPrice)
+        } else {
+            loadCartItems()
+        }
+
         updateOrderSummary()
     }
 
-    private fun setupCartData() {
-        // Data dummy untuk testing
-        cartItems.addAll(
-            listOf(
-                CartItem(
-                    id = 1,
-                    name = "Nasi Campur Spesial",
-                    price = 25000,
-                    quantity = 1,
-                    imageRes = com.example.kantinku.R.drawable.ic_food
-                ),
-                CartItem(
-                    id = 2,
-                    name = "Es Teh Manis",
-                    price = 5000,
-                    quantity = 2,
-                    imageRes = com.example.kantinku.R.drawable.ic_drink
-                )
-            )
-        )
+    private fun addToCartDirectly(id: Int, name: String, price: Int) {
+        val existingItem = cartItems.find { it.id == id }
+        if (existingItem != null) {
+            updateQuantity(existingItem, existingItem.quantity + 1)
+        } else {
+            cartItems.add(CartItem(id, name, price, 1, R.drawable.ic_food))
+            cartAdapter.updateList(cartItems)
+            updateOrderSummary()
+        }
+
+        // Sembunyikan empty cart jika ada
+        if (cartItems.isNotEmpty()) {
+            binding.cvEmptyCart.visibility = android.view.View.GONE
+            binding.rvCart.visibility = android.view.View.VISIBLE
+        }
+
+        Toast.makeText(this, "$name ditambahkan ke keranjang", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun loadCartItems() {
+        // Load dari database atau shared preferences
+        if (cartItems.isEmpty()) {
+            binding.cvEmptyCart.visibility = android.view.View.VISIBLE
+            binding.rvCart.visibility = android.view.View.GONE
+        } else {
+            binding.cvEmptyCart.visibility = android.view.View.GONE
+            binding.rvCart.visibility = android.view.View.VISIBLE
+        }
     }
 
     private fun setupRecyclerViews() {
-        // Cart RecyclerView
         cartAdapter = CartAdapter(
             cartItems,
-            onQuantityChange = { item, newQuantity ->
-                updateQuantity(item, newQuantity)
-            },
-            onRemove = { item ->
-                removeItem(item)
-            }
+            onQuantityChange = { item, newQuantity -> updateQuantity(item, newQuantity) },
+            onRemove = { item -> removeItem(item) }
         )
-        binding.rvCart.layoutManager = LinearLayoutManager(this)
+        binding.rvCart.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         binding.rvCart.adapter = cartAdapter
 
-        // Flash Deal RecyclerView
-        flashDealAdapter = FlashDealAdapter(flashDeals) { deal ->
-            addToCart(deal)
-        }
-        binding.rvFlashDeal.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        flashDealAdapter = FlashDealAdapter(flashDeals) { deal -> addFlashDealToCart(deal) }
+        binding.rvFlashDeal.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         binding.rvFlashDeal.adapter = flashDealAdapter
-    }
-
-    private fun setupFlashDealSection() {
-        binding.tvFlashDealTimer.text = "BERAKHIR DALAM 15:32"
     }
 
     private fun updateQuantity(item: CartItem, newQuantity: Int) {
@@ -114,35 +110,25 @@ class CartActivity : AppCompatActivity() {
         updateOrderSummary()
 
         if (cartItems.isEmpty()) {
+            binding.cvEmptyCart.visibility = android.view.View.VISIBLE
             binding.rvCart.visibility = android.view.View.GONE
-            binding.tvEmptyCart.visibility = android.view.View.VISIBLE
         }
     }
 
-    private fun addToCart(deal: FlashDeal) {
-        // Cek apakah sudah ada di keranjang
+    private fun addFlashDealToCart(deal: FlashDeal) {
         val existingItem = cartItems.find { it.name == deal.name }
-
         if (existingItem != null) {
             updateQuantity(existingItem, existingItem.quantity + 1)
         } else {
-            val newItem = CartItem(
-                id = deal.id,
-                name = deal.name,
-                price = deal.dealPrice,
-                quantity = 1,
-                imageRes = deal.imageRes
-            )
-            cartItems.add(newItem)
+            cartItems.add(CartItem(deal.id, deal.name, deal.dealPrice, 1, deal.imageRes))
             cartAdapter.updateList(cartItems)
             updateOrderSummary()
 
-            if (binding.rvCart.visibility == android.view.View.GONE) {
+            if (binding.cvEmptyCart.visibility == android.view.View.VISIBLE) {
+                binding.cvEmptyCart.visibility = android.view.View.GONE
                 binding.rvCart.visibility = android.view.View.VISIBLE
-                binding.tvEmptyCart.visibility = android.view.View.GONE
             }
         }
-
         Toast.makeText(this, "${deal.name} ditambahkan ke keranjang", Toast.LENGTH_SHORT).show()
     }
 
@@ -154,22 +140,22 @@ class CartActivity : AppCompatActivity() {
         binding.tvSubtotal.text = CurrencyFormatter.format(subtotal)
         binding.tvServiceFee.text = CurrencyFormatter.format(serviceFee)
         binding.tvTotal.text = CurrencyFormatter.format(total)
+
+        // Update button checkout
+        binding.btnCheckout.text = "Bayar ${CurrencyFormatter.format(total)} →"
     }
 
-    private fun checkout() {
-        if (cartItems.isEmpty()) {
-            Toast.makeText(this, "Keranjang kosong!", Toast.LENGTH_SHORT).show()
-            return
+    private fun setupFlashDealSection() {
+        binding.tvFlashDealTimer.text = "BERAKHIR DALAM 15:32"
+        binding.btnCheckout.setOnClickListener {
+            if (cartItems.isEmpty()) {
+                Toast.makeText(this, "Keranjang belanja masih kosong!", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(this, PaymentActivity::class.java)
+                intent.putExtra("total_amount", binding.tvTotal.text.toString())
+                startActivity(intent)
+            }
         }
-
-        // Generate random order ID
-        val orderId = "ORD-${(10000..99999).random()}"
-
-        // Navigate ke payment atau langsung ke status
-        val intent = Intent(this, OrderStatusActivity::class.java)
-        intent.putExtra("order_id", orderId)
-        startActivity(intent)
-        finish()
     }
 
     private fun setupBottomNav() {
@@ -177,11 +163,9 @@ class CartActivity : AppCompatActivity() {
             finish()
         }
         binding.navOrders.setOnClickListener {
-            Toast.makeText(this, "Orders", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Menu", Toast.LENGTH_SHORT).show()
         }
-        binding.navCart.setOnClickListener {
-            // Already in cart
-        }
+        binding.navCart.setOnClickListener { /* Already in cart */ }
         binding.navHistory.setOnClickListener {
             Toast.makeText(this, "History", Toast.LENGTH_SHORT).show()
         }
@@ -196,20 +180,5 @@ class CartActivity : AppCompatActivity() {
     }
 }
 
-// Data Classes
-data class CartItem(
-    val id: Int,
-    val name: String,
-    val price: Int,
-    val quantity: Int,
-    val imageRes: Int
-)
-
-data class FlashDeal(
-    val id: Int,
-    val name: String,
-    val description: String,
-    val originalPrice: Int,
-    val dealPrice: Int,
-    val imageRes: Int
-)
+data class CartItem(val id: Int, val name: String, val price: Int, val quantity: Int, val imageRes: Int)
+data class FlashDeal(val id: Int, val name: String, val description: String, val originalPrice: Int, val dealPrice: Int, val imageRes: Int)
