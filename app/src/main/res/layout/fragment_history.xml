@@ -197,7 +197,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_home"
-                android:tint="#999999" />
+                app:tint="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -222,7 +222,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_orders"
-                android:tint="#999999" />
+                app:tint="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -247,7 +247,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_cart"
-                android:tint="#999999" />
+                app:tint="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -272,7 +272,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_history"
-                android:tint="@color/primary" />
+                app:tint="@color/primary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -297,7 +297,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_profile"
-                android:tint="#999999" />
+                app:tint="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"

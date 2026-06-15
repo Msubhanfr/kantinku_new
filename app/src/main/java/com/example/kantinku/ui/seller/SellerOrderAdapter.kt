@@ -24,34 +24,13 @@ class SellerOrderAdapter(
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        holder.bind(orders[position])
-
-        val order = orders[position]
-        when (order.status) {
-            "pending" -> {
-                holder.binding.btnAccept.visibility = ViewGroup.VISIBLE
-                holder.binding.btnReady.visibility = ViewGroup.GONE
-                holder.binding.btnAccept.setOnClickListener { onAction(order, "accept") }
-                holder.binding.btnReject.setOnClickListener { onAction(order, "reject") }
-            }
-            "processing" -> {
-                holder.binding.btnAccept.visibility = ViewGroup.GONE
-                holder.binding.btnReady.visibility = ViewGroup.VISIBLE
-                holder.binding.btnReady.setOnClickListener { onAction(order, "ready") }
-                holder.binding.btnReject.visibility = ViewGroup.GONE
-            }
-            else -> {
-                holder.binding.btnAccept.visibility = ViewGroup.GONE
-                holder.binding.btnReady.visibility = ViewGroup.GONE
-                holder.binding.btnReject.visibility = ViewGroup.GONE
-            }
-        }
+        holder.bind(orders[position], onAction)
     }
 
     override fun getItemCount() = orders.size
 
     class OrderViewHolder(private val binding: ItemSellerOrderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(order: SellerOrder) {
+        fun bind(order: SellerOrder, onAction: (SellerOrder, String) -> Unit) {
             val dateFormat = SimpleDateFormat("HH:mm • dd/MM", Locale.getDefault())
 
             binding.tvOrderId.text = "#${order.id}"
@@ -65,22 +44,44 @@ class SellerOrderAdapter(
                 "pending" -> {
                     binding.tvStatus.text = "Menunggu"
                     binding.tvStatus.setTextColor(binding.root.context.getColor(com.example.kantinku.R.color.tertiary))
+
+                    binding.btnAccept.visibility = ViewGroup.VISIBLE
+                    binding.btnReady.visibility = ViewGroup.GONE
+                    binding.btnAccept.setOnClickListener { onAction(order, "accept") }
+                    binding.btnReject.setOnClickListener { onAction(order, "reject") }
                 }
                 "processing" -> {
                     binding.tvStatus.text = "Dimasak"
                     binding.tvStatus.setTextColor(binding.root.context.getColor(com.example.kantinku.R.color.primary))
+
+                    binding.btnAccept.visibility = ViewGroup.GONE
+                    binding.btnReady.visibility = ViewGroup.VISIBLE
+                    binding.btnReady.setOnClickListener { onAction(order, "ready") }
+                    binding.btnReject.visibility = ViewGroup.GONE
                 }
                 "ready" -> {
                     binding.tvStatus.text = "Siap Diambil"
                     binding.tvStatus.setTextColor(binding.root.context.getColor(com.example.kantinku.R.color.success))
+
+                    binding.btnAccept.visibility = ViewGroup.GONE
+                    binding.btnReady.visibility = ViewGroup.GONE
+                    binding.btnReject.visibility = ViewGroup.GONE
                 }
                 "completed" -> {
                     binding.tvStatus.text = "Selesai"
                     binding.tvStatus.setTextColor(binding.root.context.getColor(com.example.kantinku.R.color.success))
+
+                    binding.btnAccept.visibility = ViewGroup.GONE
+                    binding.btnReady.visibility = ViewGroup.GONE
+                    binding.btnReject.visibility = ViewGroup.GONE
                 }
                 "rejected" -> {
                     binding.tvStatus.text = "Ditolak"
                     binding.tvStatus.setTextColor(binding.root.context.getColor(com.example.kantinku.R.color.error))
+
+                    binding.btnAccept.visibility = ViewGroup.GONE
+                    binding.btnReady.visibility = ViewGroup.GONE
+                    binding.btnReject.visibility = ViewGroup.GONE
                 }
             }
         }

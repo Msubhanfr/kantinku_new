@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="12dp">
 
+    <!-- Nama Menu dan Harga -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +18,9 @@
             android:layout_weight="1"
             android:text="Ayam Geprek Sambal Matah"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/on_surface"
+            android:fontFamily="@font/inter" />
 
         <TextView
             android:id="@+id/tvItemPrice"
@@ -25,17 +28,39 @@
             android:layout_height="wrap_content"
             android:text="Rp 22.000"
             android:textSize="14sp"
-            android:textColor="@color/primary" />
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/plus_jakarta_sans" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvItemQuantity"
-        android:layout_width="wrap_content"
+    <!-- Quantity dan Catatan -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1x Porsi"
-        android:textSize="11sp"
-        android:textColor="@color/on_surface_secondary"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvItemQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1x"
+            android:textSize="12sp"
+            android:textColor="@color/on_surface_secondary"
+            android:fontFamily="@font/inter" />
+
+        <TextView
+            android:id="@+id/tvItemNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Catatan: Level pedas 3"
+            android:textSize="11sp"
+            android:textColor="@color/tertiary"
+            android:fontFamily="@font/inter"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 </LinearLayout>

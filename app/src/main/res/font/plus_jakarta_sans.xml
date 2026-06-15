@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
     <font
-        android:font="PlusJakartaSans-Bold.ttf"
+        android:font="@font/plus_jakarta_sans_bold"
         android:fontStyle="normal"
         android:fontWeight="700" />
     <font
-        android:font="PlusJakartaSans-Bold.ttf"
+        android:font="@font/plus_jakarta_sans_semibold"
         android:fontStyle="normal"
         android:fontWeight="600" />
 </font-family>

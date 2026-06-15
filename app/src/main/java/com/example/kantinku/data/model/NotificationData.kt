@@ -24,3 +24,12 @@ enum class NotificationType {
 data class NotificationCount(
     val unreadCount: Int = 0
 )
+
+data class OrderItem(
+    val id: Int,
+    val name: String,
+    val price: Int,
+    val quantity: Int,
+    val note: String = "",
+    val imageRes: Int = 0
+)

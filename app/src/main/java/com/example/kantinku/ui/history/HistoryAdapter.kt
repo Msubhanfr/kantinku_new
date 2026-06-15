@@ -24,15 +24,17 @@ class HistoryAdapter(
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.bind(orders[position])
-        holder.itemView.setOnClickListener { onItemClick(orders[position]) }
-        holder.binding.btnReorder.setOnClickListener { onReorderClick(orders[position]) }
+        holder.bind(orders[position], onReorderClick, onItemClick)
     }
 
     override fun getItemCount() = orders.size
 
     class HistoryViewHolder(private val binding: ItemHistoryOrderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(order: OrderHistory) {
+        fun bind(
+            order: OrderHistory,
+            onReorderClick: (OrderHistory) -> Unit,
+            onItemClick: (OrderHistory) -> Unit
+        ) {
             binding.tvWarungName.text = order.warungName
             binding.tvDateTime.text = "${order.date} • ${order.time}"
             binding.tvTotalPrice.text = CurrencyFormatter.format(order.totalPrice)
@@ -55,6 +57,9 @@ class HistoryAdapter(
                     binding.tvStatus.text = order.status
                 }
             }
+
+            binding.btnReorder.setOnClickListener { onReorderClick(order) }
+            binding.root.setOnClickListener { onItemClick(order) }
         }
     }
 }

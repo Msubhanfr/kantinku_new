@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kantinku.R
 import com.example.kantinku.data.model.NotificationData
+import com.example.kantinku.data.model.NotificationType
 import com.example.kantinku.databinding.FragmentNotificationBinding
 import com.example.kantinku.ui.order.OrderStatusActivity
 import kotlinx.coroutines.launch

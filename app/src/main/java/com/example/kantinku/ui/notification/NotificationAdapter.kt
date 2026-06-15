@@ -28,15 +28,17 @@ class NotificationAdapter(
     }
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        holder.bind(notifications[position])
-        holder.itemView.setOnClickListener { onItemClick(notifications[position]) }
-        holder.binding.btnDelete.setOnClickListener { onDeleteClick(notifications[position]) }
+        holder.bind(notifications[position], onItemClick, onDeleteClick)
     }
 
     override fun getItemCount() = notifications.size
 
     class NotificationViewHolder(private val binding: ItemNotificationBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(notification: NotificationData) {
+        fun bind(
+            notification: NotificationData,
+            onItemClick: (NotificationData) -> Unit,
+            onDeleteClick: (NotificationData) -> Unit
+        ) {
             binding.tvTitle.text = notification.title
             binding.tvMessage.text = notification.message
             binding.tvTime.text = formatTime(notification.timestamp)
@@ -63,6 +65,9 @@ class NotificationAdapter(
                     binding.root.context.getColor(R.color.surface_container_lowest)
                 )
             }
+
+            binding.root.setOnClickListener { onItemClick(notification) }
+            binding.btnDelete.setOnClickListener { onDeleteClick(notification) }
         }
 
         private fun formatTime(timestamp: Long): String {

@@ -22,26 +22,25 @@ class SellerMenuAdapter(
     }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        holder.bind(menus[position])
-
-        val menu = menus[position]
-        holder.binding.btnEdit.setOnClickListener { onAction(menu, "edit") }
-        holder.binding.btnDelete.setOnClickListener { onAction(menu, "delete") }
-        holder.binding.switchAvailable.setOnCheckedChangeListener(null)
-        holder.binding.switchAvailable.isChecked = menu.isAvailable
-        holder.binding.switchAvailable.setOnCheckedChangeListener { _, isChecked ->
-            onAction(menu.copy(isAvailable = isChecked), "toggle")
-        }
+        holder.bind(menus[position], onAction)
     }
 
     override fun getItemCount() = menus.size
 
     class MenuViewHolder(private val binding: ItemSellerMenuBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(menu: SellerMenuItem) {
+        fun bind(menu: SellerMenuItem, onAction: (SellerMenuItem, String) -> Unit) {
             binding.tvMenuName.text = menu.name
             binding.tvPrice.text = CurrencyFormatter.format(menu.price)
             binding.tvStock.text = "Stok: ${menu.stock}"
             binding.tvCategory.text = menu.category
+
+            binding.btnEdit.setOnClickListener { onAction(menu, "edit") }
+            binding.btnDelete.setOnClickListener { onAction(menu, "delete") }
+            binding.switchAvailable.setOnCheckedChangeListener(null)
+            binding.switchAvailable.isChecked = menu.isAvailable
+            binding.switchAvailable.setOnCheckedChangeListener { _, isChecked ->
+                onAction(menu.copy(isAvailable = isChecked), "toggle")
+            }
         }
     }
 }

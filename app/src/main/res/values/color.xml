@@ -14,11 +14,11 @@
     <color name="tertiary_gradient_end">#E56A1A</color>
 
     <!-- Surface Hierarchy (Tonal Layering) -->
-    <color name="surface">#F8F9FA</color>           <!-- Base layer -->
-    <color name="surface_container_low">#F1F3F5</color>    <!-- Subtle separation -->
-    <color name="surface_container_high">#E9ECEF</color>   <!-- Interactive elements -->
-    <color name="surface_container_lowest">#FFFFFF</color> <!-- Cards that pop -->
-    <color name="surface_variant">#E6F3F1</color>          <!-- Glass overlay base -->
+    <color name="surface">#F8F9FA</color>
+    <color name="surface_container_low">#F1F3F5</color>
+    <color name="surface_container_high">#E9ECEF</color>
+    <color name="surface_container_lowest">#FFFFFF</color>
+    <color name="surface_variant">#E6F3F1</color>
 
     <!-- On-surface colors -->
     <color name="on_surface">#1A1A1A</color>
@@ -32,7 +32,7 @@
     <color name="on_secondary_container">#1967D2</color>
 
     <!-- Glass Effect Colors -->
-    <color name="glass_background">#F8F9FAD9</color> <!-- 85% opacity -->
+    <color name="glass_background">#F8F9FAD9</color>
 
     <!-- Outline (Ghost Border - 15% opacity) -->
     <color name="outline_variant">#00000026</color>
@@ -42,5 +42,21 @@
     <color name="error">#F44336</color>
     <color name="warning">#FFC107</color>
 
-    
+    <!-- ============================================ -->
+    <!-- 🔥 TAMBAHKAN WARNA DEFAULT UNTUK THEMES DI BAWAH INI -->
+    <!-- ============================================ -->
+
+    <!-- Default Material Colors -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Notification Colors -->
+    <color name="notification_bg">#FFFFFF</color>
+    <color name="notification_text">#1A1A1A</color>
+    <color name="notification_time">#999999</color>
 </resources>

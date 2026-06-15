@@ -1,5 +1,6 @@
 package com.example.kantinku.ui.cart
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,11 +26,16 @@ class FlashDealAdapter(
 
     override fun getItemCount() = deals.size
 
-    class FlashDealViewHolder(private val binding: ItemFlashDealBinding) : RecyclerView.ViewHolder(binding.root) {
+    class FlashDealViewHolder(val binding: ItemFlashDealBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(deal: FlashDeal) {
             binding.tvDealName.text = deal.name
             binding.tvDealDescription.text = deal.description
+
+            // Harga asli dengan efek strikethrough
             binding.tvOriginalPrice.text = CurrencyFormatter.format(deal.originalPrice)
+            binding.tvOriginalPrice.paintFlags = binding.tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+            // Harga setelah diskon
             binding.tvDealPrice.text = CurrencyFormatter.format(deal.dealPrice)
         }
     }

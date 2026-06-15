@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Kantin-Ku</string>
-    <string name="login">Masuk</string>
-    <string name="register">Daftar</string>
-    <string name="nim_or_email">NIM ATAU EMAIL KAMPUS</string>
-    <string name="verification_code">KODE VERIFIKASI</string>
-    <string name="request_code">Minta Kode Verifikasi</string>
-    <string name="verify">Verifikasi Kode</string>
-    <string name="sso_login">Login dengan SSO Kampus</string>
-    <string name="help">BANTUAN</string>
-    <string name="privacy">PRIVASI</string>
-    <string name="terms">SYARAT</string>
+    <string name="login">masuk</string>
+    <string name="home">Home</string>
+    <string name="menu">Menu</string>
+    <string name="cart">Cart</string>
+    <string name="history">History</string>
+    <string name="profile">Profile</string>
+    <string name="notification">Notifikasi</string>
+    <string name="home_icon">Ikon Beranda</string>
+    <string name="search">Cari</string>
+    <string name="checkout">Bayar</string>
 </resources>

@@ -28,9 +28,9 @@
                     android:id="@+id/ivHeroImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="Hero food image"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_hero_food"
-                    android:contentDescription="Hero food image" />
+                    android:src="@drawable/img_hero_food" />
 
                 <!-- Gradient Overlay for readability -->
                 <View
@@ -62,7 +62,7 @@
                 android:hint="Cari warung atau menu favoritmu..."
                 app:startIconDrawable="@drawable/ic_search"
                 app:startIconTint="@color/primary"
-                app:endIconMode="clear"
+                app:endIconMode="clear_text"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/surface_container_low"
                 app:boxStrokeColor="@android:color/transparent"
@@ -237,7 +237,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_home"
-                    android:tint="@color/primary" />
+                    app:tint="@color/primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -263,7 +263,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_orders"
-                    android:tint="@color/on_surface_secondary" />
+                    app:tint="@color/on_surface_secondary" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -289,7 +289,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_cart"
-                    android:tint="@color/on_surface_secondary" />
+                    app:tint="@color/on_surface_secondary" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -315,7 +315,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_history"
-                    android:tint="@color/on_surface_secondary" />
+                    app:tint="@color/on_surface_secondary" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -341,7 +341,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_profile"
-                    android:tint="@color/on_surface_secondary" />
+                    app:tint="@color/on_surface_secondary" />
 
                 <TextView
                     android:layout_width="wrap_content"

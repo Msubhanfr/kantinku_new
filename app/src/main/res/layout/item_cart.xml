@@ -87,7 +87,7 @@
                     android:layout_height="32dp"
                     android:src="@android:drawable/ic_delete"
                     android:background="@android:color/transparent"
-                    android:tint="#F44336" />
+                    app:tint="#F44336" />
 
             </LinearLayout>
 

@@ -15,7 +15,7 @@ import com.example.kantinku.utils.SessionManager
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var sessionManager: SessionManager
-    private var isLoginMode = true // true = Masuk, false = Daftar
+    private var isLoginMode = true
     private var isVerificationSent = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        // Cek sudah login
         if (sessionManager.isLoggedIn()) {
             navigateToMain()
         }
@@ -36,14 +35,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupTabs() {
-        // Tab Masuk (Login)
         binding.tabLogin.setOnClickListener {
             isLoginMode = true
             updateTabUI()
             resetVerificationState()
         }
 
-        // Tab Daftar (Register)
         binding.tabRegister.setOnClickListener {
             isLoginMode = false
             updateTabUI()
@@ -55,7 +52,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateTabUI() {
         if (isLoginMode) {
-            // Tab Login aktif
             binding.tabLogin.setTextColor(ContextCompat.getColor(this, R.color.primary))
             binding.tabLogin.setBackgroundResource(R.drawable.bg_tab_active)
             binding.tabRegister.setTextColor(ContextCompat.getColor(this, R.color.on_surface_secondary))
@@ -63,10 +59,9 @@ class LoginActivity : AppCompatActivity() {
 
             binding.tvFormTitle.text = "Halo, Sobat Kampus!"
             binding.tvFormSubtitle.text = "Gunakan identitas kampusmu untuk ${getString(R.string.login)}."
-            binding.btnSubmit.text = "Minta Kode Verifikasi →"
+            binding.btnSubmit.text = "Minta Kode Verifikasi →"  // ← Baris 65
 
         } else {
-            // Tab Register aktif
             binding.tabRegister.setTextColor(ContextCompat.getColor(this, R.color.primary))
             binding.tabRegister.setBackgroundResource(R.drawable.bg_tab_active)
             binding.tabLogin.setTextColor(ContextCompat.getColor(this, R.color.on_surface_secondary))
@@ -100,10 +95,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun requestVerificationCode(nimOrEmail: String) {
-        // Simulasi pengiriman kode verifikasi
         showProgress(true)
 
-        // Simulasi API call
         binding.root.postDelayed({
             showProgress(false)
             isVerificationSent = true
@@ -113,22 +106,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showVerificationCodeUI(nimOrEmail: String) {
-        // Sembunyikan input NIM
         binding.etNimOrEmail.visibility = View.GONE
         binding.inputLayoutNim.visibility = View.GONE
 
-        // Tampilkan input kode verifikasi
         binding.inputLayoutVerificationCode.visibility = View.VISIBLE
         binding.etVerificationCode.visibility = View.VISIBLE
 
-        // Update tombol
         binding.btnSubmit.text = "Verifikasi Kode →"
 
-        // Tampilkan informasi pengiriman
         binding.tvVerificationInfo.visibility = View.VISIBLE
         binding.tvVerificationInfo.text = "Kode verifikasi dikirim ke $nimOrEmail"
 
-        // Start timer untuk resend
         startResendTimer()
     }
 
@@ -165,16 +153,13 @@ class LoginActivity : AppCompatActivity() {
 
         showProgress(true)
 
-        // Simulasi verifikasi
         binding.root.postDelayed({
             showProgress(false)
 
             if (isLoginMode) {
-                // Login success
                 sessionManager.saveUser(1, nimOrEmail.take(8), false)
                 navigateToMain()
             } else {
-                // Register success
                 Toast.makeText(this, "Pendaftaran berhasil! Silakan login.", Toast.LENGTH_SHORT).show()
                 resetToLoginMode()
             }
@@ -191,7 +176,6 @@ class LoginActivity : AppCompatActivity() {
     private fun resetVerificationState() {
         isVerificationSent = false
 
-        // Reset UI
         binding.etNimOrEmail.visibility = View.VISIBLE
         binding.inputLayoutNim.visibility = View.VISIBLE
         binding.inputLayoutVerificationCode.visibility = View.GONE

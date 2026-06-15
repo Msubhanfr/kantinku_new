@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kantinku.R
-import com.example.kantinku.databinding.ItemRecommendationBinding
+import com.example.kantinku.databinding.ItemRecomendationBinding
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -14,21 +14,18 @@ class RecommendationAdapter(
 ) : RecyclerView.Adapter<RecommendationAdapter.RecommendationViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendationViewHolder {
-        val binding = ItemRecommendationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemRecomendationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RecommendationViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecommendationViewHolder, position: Int) {
-        holder.bind(menuList[position])
-        holder.binding.btnAddToCart.setOnClickListener {
-            onAddToCart(menuList[position])
-        }
+        holder.bind(menuList[position], onAddToCart)
     }
 
     override fun getItemCount() = menuList.size
 
-    class RecommendationViewHolder(private val binding: ItemRecommendationBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(menu: RecommendationMenu) {
+    class RecommendationViewHolder(private val binding: ItemRecomendationBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(menu: RecommendationMenu, onAddToCart: (RecommendationMenu) -> Unit) {
             val formatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
 
             // Set badge type
@@ -56,6 +53,10 @@ class RecommendationAdapter(
             binding.tvPrice.text = formatter.format(menu.price)
             binding.tvRating.text = menu.rating.toString()
             binding.tvSold.text = "${menu.soldCount}+ terjual"
+
+            binding.btnAddToCart.setOnClickListener {
+                onAddToCart(menu)
+            }
         }
     }
 }

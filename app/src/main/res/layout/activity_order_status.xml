@@ -123,8 +123,8 @@
                     android:id="@+id/ivStep1Icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_check_circle"
-                    android:tint="@color/primary" />
+                    android:src="@drawable/ic_chek_circle"
+                    app:tint="@color/primary" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -181,7 +181,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_cooking"
-                    android:tint="@color/on_surface_disabled" />
+                    app:tint="@color/on_surface_disabled" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -231,7 +231,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_storefront"
-                    android:tint="@color/on_surface_disabled" />
+                    app:tint="@color/on_surface_disabled" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -279,8 +279,8 @@
                     android:id="@+id/ivStep4Icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_check_circle"
-                    android:tint="@color/on_surface_disabled" />
+                    android:src="@drawable/ic_chek_circle"
+                    app:tint="@color/on_surface_disabled" />
 
                 <LinearLayout
                     android:layout_width="0dp"

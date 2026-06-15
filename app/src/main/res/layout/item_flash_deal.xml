@@ -4,7 +4,7 @@
     android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="12dp"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
     android:backgroundTint="#FFF3E0">
 
@@ -23,7 +23,7 @@
             android:textColor="#FF5722"
             android:textStyle="bold" />
 
-        <!-- Item Image -->
+        <!-- Item Image Placeholder -->
         <View
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -32,14 +32,18 @@
             android:background="#FF5722"
             android:backgroundTint="#FFEBEE" />
 
+        <!-- Nama Item -->
         <TextView
             android:id="@+id/tvDealName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pisang Goreng Madu"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
+        <!-- Deskripsi -->
         <TextView
             android:id="@+id/tvDealDescription"
             android:layout_width="wrap_content"
@@ -47,14 +51,17 @@
             android:text="Sempurna untuk camilan sore..."
             android:textSize="10sp"
             android:textColor="#666666"
-            android:maxLines="2" />
+            android:maxLines="2"
+            android:ellipsize="end" />
 
+        <!-- Harga -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
+            <!-- Harga Original (strikethrough diset programatik di adapter) -->
             <TextView
                 android:id="@+id/tvOriginalPrice"
                 android:layout_width="0dp"
@@ -62,9 +69,9 @@
                 android:layout_weight="1"
                 android:text="Rp 15.000"
                 android:textSize="10sp"
-                android:textColor="#999999"
-                android:textDecoration="line-through" />
+                android:textColor="@color/on_surface_disabled" />
 
+            <!-- Harga Deal -->
             <TextView
                 android:id="@+id/tvDealPrice"
                 android:layout_width="wrap_content"
@@ -76,6 +83,7 @@
 
         </LinearLayout>
 
+        <!-- Tombol Tambah -->
         <Button
             android:id="@+id/btnAdd"
             android:layout_width="match_parent"

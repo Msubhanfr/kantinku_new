@@ -24,25 +24,25 @@ class MenuPopulerAdapter(
     }
 
     override fun onBindViewHolder(holder: MenuPopulerViewHolder, position: Int) {
-        holder.bind(menuList[position])
+        holder.bind(menuList[position], position)
         holder.itemView.setOnClickListener { onItemClick(menuList[position]) }
     }
 
     override fun getItemCount() = menuList.size
 
     class MenuPopulerViewHolder(private val binding: ItemMenuPopulerBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(menu: Menu) {
-            binding.tvNumber.text = "${adapterPosition + 1}."
+        fun bind(menu: Menu, position: Int) {
+            binding.tvNumber.text = "${position + 1}."
             binding.tvMenuName.text = menu.name
             binding.tvDescription.text = menu.description
             binding.tvPrice.text = CurrencyFormatter.format(menu.price)
 
             if (menu.stock <= 0) {
-                binding.tvStockWarning.visibility = ViewGroup.VISIBLE
+                binding.tvStockWarning.visibility = android.view.View.VISIBLE
                 binding.tvStockWarning.text = "STOK HABIS"
                 binding.tvPrice.alpha = 0.5f
             } else {
-                binding.tvStockWarning.visibility = ViewGroup.GONE
+                binding.tvStockWarning.visibility = android.view.View.GONE
                 binding.tvPrice.alpha = 1f
             }
         }

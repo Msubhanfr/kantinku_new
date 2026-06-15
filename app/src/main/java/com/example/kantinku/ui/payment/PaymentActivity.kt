@@ -3,21 +3,49 @@ package com.example.kantinku.ui.payment
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kantinku.R
+import com.example.kantinku.data.model.OrderItem
 import com.example.kantinku.databinding.ActivityPaymentBinding
 import com.example.kantinku.utils.CurrencyFormatter
 import com.example.kantinku.utils.SessionManager
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Locale
 
 class PaymentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPaymentBinding
     private lateinit var sessionManager: SessionManager
+    private lateinit var orderAdapter: PaymentOrderAdapter
     private var selectedPaymentMethod = PaymentMethod.SALDO_KAMPUS
 
     enum class PaymentMethod {
         SALDO_KAMPUS, QRIS, GOPAY, OVO, DANA
     }
+
+    // 🔥 DATA DUMMY UNTUK ORDER ITEMS
+    private val orderItems = listOf(
+        OrderItem(
+            id = 1,
+            name = "Ayam Geprek Sambal Matah",
+            price = 22000,
+            quantity = 1,
+            note = "Level pedas 3, tambah terong"
+        ),
+        OrderItem(
+            id = 2,
+            name = "Es Teh Manis Jumbo",
+            price = 10000,
+            quantity = 2,
+            note = "Es nya sedikit, gula dikurangi"
+        ),
+        OrderItem(
+            id = 3,
+            name = "Nasi Putih",
+            price = 5000,
+            quantity = 1,
+            note = ""
+        )
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,28 +63,23 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun setupOrderSummary() {
-        // Get data from intent
-        val orderId = intent.getStringExtra("order_id") ?: "KTN-8821"
+        // 🔥 TAMPILKAN DATA DUMMY
+        val orderId = intent.getStringExtra("order_id") ?: "KTN-${System.currentTimeMillis()}"
         binding.tvOrderId.text = "ID Pesanan: #$orderId"
 
-        // Dummy data for order items
-        val orderItems = listOf(
-            OrderItem("Ayam Geprek Sambal Matah", 22000, "1x Porsi"),
-            OrderItem("Es Teh Manis Jumbo", 10000, "2x Porsi")
-        )
+        // Setup adapter untuk order items
+        orderAdapter = PaymentOrderAdapter(orderItems)
+        binding.rvOrderItems.layoutManager = LinearLayoutManager(this)
+        binding.rvOrderItems.adapter = orderAdapter
 
-        val orderItemsAdapter = OrderItemsAdapter(orderItems)
-        binding.rvOrderItems.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
-        binding.rvOrderItems.adapter = orderItemsAdapter
-
-        val subtotal = 32000
+        // Hitung total harga dari data dummy
+        val subtotal = orderItems.sumOf { it.price * it.quantity }
         val serviceFee = 2000
-        val total = 34000
+        val total = subtotal + serviceFee
 
         binding.tvSubtotal.text = CurrencyFormatter.format(subtotal)
         binding.tvServiceFee.text = CurrencyFormatter.format(serviceFee)
         binding.tvTotalPayment.text = CurrencyFormatter.format(total)
-        binding.btnTotalBayar.text = "TOTAL BAYAR\n${CurrencyFormatter.format(total)}"
     }
 
     private fun setupPaymentMethods() {
@@ -116,25 +139,20 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun resetCardSelection() {
-        // Saldo Kampus
-        binding.cardSaldoKampus.setCardBackgroundColor(getColor(com.example.kantinku.R.color.surface_container_lowest))
+        binding.cardSaldoKampus.setCardBackgroundColor(getColor(R.color.surface_container_lowest))
         binding.chkSaldoKampus.isChecked = false
-
-        // QRIS
-        binding.cardQris.setCardBackgroundColor(getColor(com.example.kantinku.R.color.surface_container_lowest))
+        binding.cardQris.setCardBackgroundColor(getColor(R.color.surface_container_lowest))
         binding.chkQris.isChecked = false
-
-        // E-Wallets
-        binding.cardGopay.setCardBackgroundColor(getColor(com.example.kantinku.R.color.surface_container_lowest))
+        binding.cardGopay.setCardBackgroundColor(getColor(R.color.surface_container_lowest))
         binding.chkGopay.isChecked = false
-        binding.cardOvo.setCardBackgroundColor(getColor(com.example.kantinku.R.color.surface_container_lowest))
+        binding.cardOvo.setCardBackgroundColor(getColor(R.color.surface_container_lowest))
         binding.chkOvo.isChecked = false
-        binding.cardDana.setCardBackgroundColor(getColor(com.example.kantinku.R.color.surface_container_lowest))
+        binding.cardDana.setCardBackgroundColor(getColor(R.color.surface_container_lowest))
         binding.chkDana.isChecked = false
     }
 
     private fun highlightCard(card: androidx.cardview.widget.CardView, checkBox: android.widget.CheckBox) {
-        card.setCardBackgroundColor(getColor(com.example.kantinku.R.color.primary_light))
+        card.setCardBackgroundColor(getColor(R.color.primary_light))
         checkBox.isChecked = true
     }
 
@@ -155,43 +173,40 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun processPayment() {
-        // Show loading
         binding.btnBayarSekarang.isEnabled = false
         binding.btnBayarSekarang.text = "Memproses..."
 
-        lifecycleScope.launch {
-            delay(2000) // Simulate payment processing
-
-            val total = 34000
+        binding.btnBayarSekarang.postDelayed({
+            val total = orderItems.sumOf { it.price * it.quantity } + 2000
 
             when (selectedPaymentMethod) {
                 PaymentMethod.SALDO_KAMPUS -> {
                     if (total <= 156500) {
-                        Toast.makeText(this@PaymentActivity, "Pembayaran berhasil menggunakan Saldo Kampus!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "✅ Pembayaran berhasil menggunakan Saldo Kampus!", Toast.LENGTH_LONG).show()
                         finish()
                     } else {
-                        Toast.makeText(this@PaymentActivity, "Saldo tidak mencukupi!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "❌ Saldo tidak mencukupi!", Toast.LENGTH_SHORT).show()
                     }
                 }
                 PaymentMethod.QRIS -> {
                     showQRISDialog()
                 }
                 PaymentMethod.GOPAY, PaymentMethod.OVO, PaymentMethod.DANA -> {
-                    Toast.makeText(this@PaymentActivity, "Redirect ke ${selectedPaymentMethod.name}...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "✅ Redirect ke ${selectedPaymentMethod.name}...", Toast.LENGTH_SHORT).show()
                 }
             }
 
             binding.btnBayarSekarang.isEnabled = true
             binding.btnBayarSekarang.text = "Bayar Sekarang"
-        }
+        }, 2000)
     }
 
     private fun showQRISDialog() {
         androidx.appcompat.app.AlertDialog.Builder(this)
             .setTitle("Scan QRIS")
-            .setMessage("Silakan scan QR Code berikut untuk menyelesaikan pembayaran")
+            .setMessage("Silakan scan QR Code berikut untuk menyelesaikan pembayaran\n\nNominal: ${binding.tvTotalPayment.text}")
             .setPositiveButton("OK") { _, _ ->
-                Toast.makeText(this, "Pembayaran QRIS berhasil!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "✅ Pembayaran QRIS berhasil!", Toast.LENGTH_SHORT).show()
                 finish()
             }
             .setNegativeButton("Batal", null)
@@ -203,9 +218,3 @@ class PaymentActivity : AppCompatActivity() {
         return true
     }
 }
-
-data class OrderItem(
-    val name: String,
-    val price: Int,
-    val quantity: String
-)

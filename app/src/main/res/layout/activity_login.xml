@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Halo, Sobat Kampus!"
+            android:text="Halo, Sobat UBP!"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/on_surface" />
@@ -226,7 +226,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_chek"
-                    android:tint="@color/primary" />
+                    app:tint="@color/primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -249,7 +249,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_chek"
-                    android:tint="@color/primary" />
+                    app:tint="@color/primary" />
 
                 <TextView
                     android:layout_width="wrap_content"

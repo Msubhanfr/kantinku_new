@@ -37,7 +37,7 @@
 
             <!-- Empty Cart Message -->
             <TextView
-                android:id="@+id/tvEmptyCart"
+                android:id="@+id/cvEmptyCart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -239,7 +239,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_home"
-                android:tint="#999999" />
+                app:tint="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -264,7 +264,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_orders"
-                android:tint="#999999" />
+                app:tint="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -289,7 +289,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_cart"
-                android:tint="#FF5722" />
+                app:tint="#FF5722" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -314,7 +314,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_history"
-                android:tint="#999999" />
+                app:tint="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -339,7 +339,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_profile"
-                android:tint="#999999" />
+                app:tint="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"

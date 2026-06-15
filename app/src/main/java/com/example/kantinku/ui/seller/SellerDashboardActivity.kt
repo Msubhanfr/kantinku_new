@@ -2,6 +2,7 @@ package com.example.kantinku.ui.seller
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -122,9 +123,9 @@ class SellerDashboardActivity : AppCompatActivity() {
         val activeColor = getColor(R.color.primary)
         val inactiveColor = getColor(R.color.on_surface_secondary)
 
-        activeTab.findViewById<TextView>(R.id.tvTabText)?.setTextColor(activeColor)
-        tab2.findViewById<TextView>(R.id.tvTabText)?.setTextColor(inactiveColor)
-        tab3.findViewById<TextView>(R.id.tvTabText)?.setTextColor(inactiveColor)
+        (activeTab as? TextView)?.setTextColor(activeColor)
+        (tab2 as? TextView)?.setTextColor(inactiveColor)
+        (tab3 as? TextView)?.setTextColor(inactiveColor)
     }
 
     private fun updateStats() {

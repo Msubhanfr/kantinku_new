@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -72,8 +74,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupToolbarIcons() {
         binding.ivNotification.setOnClickListener {
-            val notificationFragment = NotificationFragment()
-            notificationFragment.show(supportFragmentManager, "notification")
+            loadFragment(NotificationFragment())
+            setNavActive(-1)
         }
 
         binding.ivAvatar.setOnClickListener {
@@ -93,24 +95,17 @@ class MainActivity : AppCompatActivity() {
         resetNavIcons()
 
         // Set active icon based on selected nav
-        when (activeId) {
-            R.id.navHome -> {
-                binding.navHome.findViewById<ImageView>(R.id.imgIcon)?.setImageResource(R.drawable.ic_home)
-                (binding.navHome.getChildAt(0) as? ImageView)?.setColorFilter(getColor(R.color.primary))
-                (binding.navHome.getChildAt(1) as? TextView)?.setTextColor(getColor(R.color.primary))
-            }
-            R.id.navMenu -> {
-                (binding.navMenu.getChildAt(0) as? ImageView)?.setColorFilter(getColor(R.color.primary))
-                (binding.navMenu.getChildAt(1) as? TextView)?.setTextColor(getColor(R.color.primary))
-            }
-            R.id.navHistory -> {
-                (binding.navHistory.getChildAt(0) as? ImageView)?.setColorFilter(getColor(R.color.primary))
-                (binding.navHistory.getChildAt(1) as? TextView)?.setTextColor(getColor(R.color.primary))
-            }
-            R.id.navProfile -> {
-                (binding.navProfile.getChildAt(0) as? ImageView)?.setColorFilter(getColor(R.color.primary))
-                (binding.navProfile.getChildAt(1) as? TextView)?.setTextColor(getColor(R.color.primary))
-            }
+        val activeView = when (activeId) {
+            R.id.navHome -> binding.navHome
+            R.id.navMenu -> binding.navMenu
+            R.id.navHistory -> binding.navHistory
+            R.id.navProfile -> binding.navProfile
+            else -> null
+        }
+
+        activeView?.let {
+            it.setTextColor(getColor(R.color.primary))
+            it.compoundDrawableTintList = android.content.res.ColorStateList.valueOf(getColor(R.color.primary))
         }
     }
 
@@ -118,13 +113,9 @@ class MainActivity : AppCompatActivity() {
         val navItems = listOf(binding.navHome, binding.navMenu, binding.navCart, binding.navHistory, binding.navProfile)
 
         navItems.forEach { navItem ->
-            (navItem.getChildAt(0) as? ImageView)?.setColorFilter(getColor(R.color.on_surface_secondary))
-            (navItem.getChildAt(1) as? TextView)?.setTextColor(getColor(R.color.on_surface_secondary))
+            navItem.setTextColor(getColor(R.color.on_surface_secondary))
+            navItem.compoundDrawableTintList = android.content.res.ColorStateList.valueOf(getColor(R.color.on_surface_secondary))
         }
-
-        // Reset cart icon (karena cart pindah ke activity)
-        (binding.navCart.getChildAt(0) as? ImageView)?.setColorFilter(getColor(R.color.on_surface_secondary))
-        (binding.navCart.getChildAt(1) as? TextView)?.setTextColor(getColor(R.color.on_surface_secondary))
     }
 
     private fun handleIntentNavigation() {
@@ -157,8 +148,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_notification -> {
-                val notificationFragment = NotificationFragment()
-                notificationFragment.show(supportFragmentManager, "notification")
+                loadFragment(NotificationFragment())
+                setNavActive(-1)
                 true
             }
             else -> super.onOptionsItemSelected(item)

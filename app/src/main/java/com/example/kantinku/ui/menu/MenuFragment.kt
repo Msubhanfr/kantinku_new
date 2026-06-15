@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kantinku.R
+import com.example.kantinku.data.entity.Menu
 import com.example.kantinku.databinding.FragmentMenuBinding
 import com.example.kantinku.ui.cart.CartActivity
 import com.example.kantinku.utils.SessionManager
@@ -34,11 +35,11 @@ class MenuFragment : Fragment() {
 
     // Data Dummy Menu Populer
     private val menuPopulerList = listOf(
-        MenuPopuler(1, "Nasi Goreng Spesial", "Nasi goreng dengan telur, ayam, bakso, dan kerupuk", 18000, 12, R.drawable.ic_food),
-        MenuPopuler(2, "Ayam Penyet Sambal Ijo", "Ayam ungkep dengan sambal cabe ijo pedas mantap.", 18000, 0, R.drawable.ic_food),
-        MenuPopuler(3, "Gado-Gado Segar", "Sayuran segar dengan bumbu kacang pilihan", 15000, 8, R.drawable.ic_food),
-        MenuPopuler(4, "Mie Ayam Bakso", "Mie ayam dengan bakso sapi dan pangsit", 17000, 15, R.drawable.ic_food),
-        MenuPopuler(5, "Es Teh Manis", "Teh manis dingin segar", 5000, 50, R.drawable.ic_food)
+        Menu(1, "Nasi Goreng Spesial", 18000, 12, "Makanan", "Nasi goreng dengan telur, ayam, bakso, dan kerupuk"),
+        Menu(2, "Ayam Penyet Sambal Ijo", 18000, 0, "Makanan", "Ayam ungkep dengan sambal cabe ijo pedas mantap."),
+        Menu(3, "Gado-Gado Segar", 15000, 8, "Makanan", "Sayuran segar dengan bumbu kacang pilihan"),
+        Menu(4, "Mie Ayam Bakso", 17000, 15, "Makanan", "Mie ayam dengan bakso sapi dan pangsit"),
+        Menu(5, "Es Teh Manis", 5000, 50, "Minuman", "Teh manis dingin segar")
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -67,13 +68,13 @@ class MenuFragment : Fragment() {
 
     private fun setupMenuPopulerSection() {
         // 🔥 UPDATE: Langsung ke CartActivity ketika klik Pesan
-        menuPopulerAdapter = MenuPopulerAdapter(menuPopulerList) { menu ->
+        menuPopulerAdapter = MenuPopulerAdapter { menu ->
             if (menu.stock > 0) {
                 val intent = Intent(requireContext(), CartActivity::class.java)
                 intent.putExtra("menu_id", menu.id)
                 intent.putExtra("menu_name", menu.name)
                 intent.putExtra("menu_price", menu.price)
-                intent.putExtra("menu_image", menu.imageRes)
+                intent.putExtra("menu_image", menu.imageUrl)
                 startActivity(intent)
             } else {
                 Toast.makeText(requireContext(), "Maaf, ${menu.name} sedang habis!", Toast.LENGTH_SHORT).show()
@@ -81,6 +82,7 @@ class MenuFragment : Fragment() {
         }
         binding.rvMenuPopuler.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMenuPopuler.adapter = menuPopulerAdapter
+        menuPopulerAdapter.submitList(menuPopulerList)
     }
 
     private fun setupBottomNav() {
@@ -149,13 +151,4 @@ data class Warung(
     val imageRes: Int,
     val rating: Double,
     val isOpen: Boolean
-)
-
-data class MenuPopuler(
-    val id: Int,
-    val name: String,
-    val description: String,
-    val price: Int,
-    val stock: Int,
-    val imageRes: Int
 )

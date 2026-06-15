@@ -3,7 +3,7 @@ package com.example.kantinku.utils
 import android.content.Context
 import android.content.SharedPreferences
 
-class SessionManager(context: Context) {
+class SessionManager(private val context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences("KantinKuPrefs", Context.MODE_PRIVATE)
 
     fun saveUser(userId: Int, username: String, isSeller: Boolean) {
