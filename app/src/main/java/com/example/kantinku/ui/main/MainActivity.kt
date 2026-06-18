@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import com.example.kantinku.R
 import com.example.kantinku.databinding.ActivityMainBinding
@@ -17,6 +16,7 @@ import com.example.kantinku.ui.home.HomeFragment
 import com.example.kantinku.ui.menu.MenuFragment
 import com.example.kantinku.ui.notification.NotificationFragment
 import com.example.kantinku.ui.profile.ProfileFragment
+import com.example.kantinku.ui.seller.SellerDashboardActivity
 import com.example.kantinku.utils.SessionManager
 
 class MainActivity : AppCompatActivity() {
@@ -30,10 +30,17 @@ class MainActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
+        // Cek role admin
+        if (sessionManager.isSeller()) {
+            startActivity(Intent(this, SellerDashboardActivity::class.java))
+            finish()
+            return
+        }
+
+        // Setup untuk user biasa
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
 
-        // Default fragment = Home
         if (savedInstanceState == null) {
             loadFragment(HomeFragment())
             setNavActive(R.id.navHome)
@@ -41,8 +48,6 @@ class MainActivity : AppCompatActivity() {
 
         setupBottomNav()
         setupToolbarIcons()
-
-        // Handle navigation from intent (dari halaman lain)
         handleIntentNavigation()
     }
 
@@ -73,9 +78,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupToolbarIcons() {
+        // 🔥 PERBAIKI: Gunakan supportFragmentManager untuk navigasi ke NotificationFragment
         binding.ivNotification.setOnClickListener {
-            loadFragment(NotificationFragment())
-            setNavActive(-1)
+            val fragment = NotificationFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment)
+                .addToBackStack(null)
+                .commit()
         }
 
         binding.ivAvatar.setOnClickListener {
@@ -91,30 +100,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNavActive(activeId: Int) {
-        // Reset all icons to inactive
         resetNavIcons()
 
-        // Set active icon based on selected nav
-        val activeView = when (activeId) {
-            R.id.navHome -> binding.navHome
-            R.id.navMenu -> binding.navMenu
-            R.id.navHistory -> binding.navHistory
-            R.id.navProfile -> binding.navProfile
-            else -> null
+        val (textView, color) = when (activeId) {
+            R.id.navHome -> binding.navHome to R.color.primary
+            R.id.navMenu -> binding.navMenu to R.color.primary
+            R.id.navHistory -> binding.navHistory to R.color.primary
+            R.id.navProfile -> binding.navProfile to R.color.primary
+            else -> null to R.color.on_surface_secondary
         }
 
-        activeView?.let {
-            it.setTextColor(getColor(R.color.primary))
-            it.compoundDrawableTintList = android.content.res.ColorStateList.valueOf(getColor(R.color.primary))
+        textView?.let {
+            it.setTextColor(ContextCompat.getColor(this, color))
+            // 🔥 PERBAIKI: Gunakan TextViewCompat
+            TextViewCompat.setCompoundDrawableTintList(
+                it,
+                ContextCompat.getColorStateList(this, color)
+            )
         }
     }
 
     private fun resetNavIcons() {
-        val navItems = listOf(binding.navHome, binding.navMenu, binding.navCart, binding.navHistory, binding.navProfile)
+        val navItems = listOf(
+            binding.navHome,
+            binding.navMenu,
+            binding.navCart,
+            binding.navHistory,
+            binding.navProfile
+        )
+
+        val color = ContextCompat.getColorStateList(this, R.color.on_surface_secondary)
 
         navItems.forEach { navItem ->
-            navItem.setTextColor(getColor(R.color.on_surface_secondary))
-            navItem.compoundDrawableTintList = android.content.res.ColorStateList.valueOf(getColor(R.color.on_surface_secondary))
+            navItem.setTextColor(ContextCompat.getColor(this, R.color.on_surface_secondary))
+            // 🔥 PERBAIKI: Gunakan TextViewCompat
+            TextViewCompat.setCompoundDrawableTintList(navItem, color)
         }
     }
 
@@ -137,6 +157,11 @@ class MainActivity : AppCompatActivity() {
                 loadFragment(ProfileFragment())
                 setNavActive(R.id.navProfile)
             }
+            else -> {
+                // Default ke Home
+                loadFragment(HomeFragment())
+                setNavActive(R.id.navHome)
+            }
         }
     }
 
@@ -148,8 +173,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_notification -> {
-                loadFragment(NotificationFragment())
-                setNavActive(-1)
+                val fragment = NotificationFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
                 true
             }
             else -> super.onOptionsItemSelected(item)
